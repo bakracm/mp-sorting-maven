@@ -56,22 +56,28 @@ public class SelectionSorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    T temporary;
     for (int i = 0; i < values.length; i++) {
-      temporary = values[i];
-      values[i] = values[select(values,i)];
-      values[select(values, i)] = temporary;
+      ArrayUtils.swap(values, i, select(values, i));
     } // for
   } // sort(T[])
 
+  /**
+   * Finds the smallest value in a subarray and returns its index.
+   *
+   * @param values
+   *    The full array.
+   * @param startIndex
+   *    The first index of the subarray.
+   * @return the index of the smallest value.
+   */
   public int select(T[] values, int startIndex) {
-    int indexSmallest = 0;
+    int index = startIndex;
     for (int i = startIndex; i < values.length; i++) {
-      if (order.compare(values[i], values[indexSmallest]) <= 0) {
-        indexSmallest = i;
-      } // if
+        if (order.compare(values[i], values[index]) < 0) {
+          index = i;
+        } // if
     } // for
-    return indexSmallest;
+    return index;
   } // select(T[], T, int)
 
 } // class SelectionSorter
